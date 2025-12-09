@@ -37,10 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'tdlist',
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'djoser',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -110,6 +114,45 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+REST_FRAMEWORK={'DEFAULT_AUTHENTICATION_CLASSES':(
+    'rest_framework_simplejwt.authentication.JWTAuthentication',),
+                'DEFAULT_PERMISSION_CLASSES':(
+                    'rest_framework.permissions.IsAuthenticated',)}
+
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
+
+DJOSER = {
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,
+    
+    # We will create this custom serializer next
+    'SERIALIZERS': {
+        'user_create': 'tdlist.serializers.UserCreateSerializer', 
+        'user': 'djoser.serializers.UserSerializer',
+        'current_user': 'djoser.serializers.UserSerializer',
+    },
+    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': False,
+    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'DOMAIN': '127.0.0.1:5173', # We don't need this if we set SITE_ID, but it's cleaner
+    'SITE_ID': 1,
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+# Ensure this is set for authentication clarity
+AUTH_USER_MODEL = 'auth.User'
 
 
 # Internationalization
