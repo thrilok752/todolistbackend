@@ -1,0 +1,15 @@
+# 1. Virtual Environment & Python Artifacts
+venv/
+env/
+__pycache__/
+*.pyc
+
+# 2. Database Files
+*.sqlite3
+db.sqlite3
+/media
+/static
+
+# 3. Development/Local Secrets (NEVER COMMIT CREDENTIALS)
+local_settings.py
+.env
