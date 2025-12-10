@@ -152,7 +152,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Ensure this is set for authentication clarity
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'tdlist.CustomUser'
 
 
 # Internationalization
