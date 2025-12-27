@@ -21,6 +21,7 @@ cymem==2.0.11
 datasets==3.6.0
 defusedxml==0.7.1
 dill==0.3.8
+dj-database-url==3.0.1
 Django==5.2.1
 django-cors-headers==4.7.0
 djangorestframework==3.16.0
@@ -35,6 +36,7 @@ frozenlist==1.6.0
 fsspec==2025.3.0
 gender-guesser==0.4.0
 Genderize==0.3.1
+gunicorn==23.0.0
 hf-xet==1.1.5
 huggingface-hub==0.34.3
 idna==3.10
@@ -61,6 +63,7 @@ preshed==3.0.10
 propcache==0.3.1
 psutil==7.0.0
 psycopg2==2.9.10
+psycopg2-binary==2.9.11
 pyarrow==20.0.0
 pycparser==2.23
 pydantic==2.11.7
