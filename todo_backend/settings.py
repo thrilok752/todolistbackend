@@ -30,7 +30,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG","False")=="True"
 
 ALLOWED_HOSTS = [
-"*"
+    "127.0.0.1",
+    "localhost",
+"todolistbackend-vtf8.onrender.com"
 ]
 
 
@@ -83,7 +85,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'todo_backend.wsgi.application'
-CORS_ALLOWED_ORIGINS= ['http://localhost:5173']
+CORS_ALLOWED_ORIGINS= ['http://localhost:5173',"https://todolistfrontend-pi.vercel.app/"]
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
