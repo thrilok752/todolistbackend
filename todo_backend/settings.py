@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,15 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g#8u6v@7u61ehcygp)(^tl7a2bkhl5&202j&2)((q7%y3mg&5_'
+
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG","False")=="True"
 
 ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "51.20.253.91"
+"*"
 ]
 
 
@@ -54,6 +56,7 @@ SITE_ID = 1
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -90,16 +93,16 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'tododb',
-#         'USER':'postgres',
-#         'PASSWORD':'rollno21',
-#         'HOST':'127.0.0.1',
-#         'PORT':'5432'
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': os.getenv("DB_HOST"),
+        'PORT': os.getenv("DB_PORT"),
+    }
+}
 
 
 # Password validation
@@ -139,19 +142,21 @@ SIMPLE_JWT = {
 DJOSER = {
     'USER_CREATE_PASSWORD_RETYPE': True,
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
-    
-    # We will create this custom serializer next
+
     'SERIALIZERS': {
-        'user_create': 'tdlist.serializers.UserCreateSerializer', 
+        'user_create': 'tdlist.serializers.UserCreateSerializer',
         'user': 'djoser.serializers.UserSerializer',
         'current_user': 'djoser.serializers.UserSerializer',
     },
+
     'ACTIVATION_URL': '#/activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': False,
     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-    'DOMAIN': '127.0.0.1:5173', # We don't need this if we set SITE_ID, but it's cleaner
+    'SEND_ACTIVATION_EMAIL': False,
+
+    'DOMAIN': '13.61.180.161',
     'SITE_ID': 1,
 }
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -176,6 +181,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
